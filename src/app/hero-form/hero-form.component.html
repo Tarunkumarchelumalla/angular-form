@@ -1,7 +1,8 @@
 <form class="form" [formGroup]="Employee">
   Name:<input type="text" placeholder="Name" formControlName="Name" /><br />
-  <span *ngIf="length != 0">Doing Rigth............. {{ length }}</span
-  ><br />
+
+  <br />
+  <span *ngIf="fromError.Name">{{ formError.Name }}</span>
   Number:<input type="" placeholder="Number" formControlName="number" /><br />
   <form class="from" formGroupName="Skills">
     skill:<input type="text" formControlName="Skillname" /><br />

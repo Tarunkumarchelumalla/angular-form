@@ -28,10 +28,10 @@ export class HeroFormComponent implements OnInit {
     },
   };
   formError = {
-    Name: '',
-    number: '',
-    Skillname: '',
-    Rating: '',
+    Name: ' ',
+    number: ' ',
+    Skillname: ' ',
+    Rating: ' ',
   };
   ngOnInit(): void {
     this.Employee = new FormGroup({
@@ -49,9 +49,10 @@ export class HeroFormComponent implements OnInit {
     // this.Employee.get('Name').valueChanges.subscribe((val) => {
     //   // this.length = val.length;
     // });
-    // this.Employee.valueChanges.subscribe((val) => {
-    //   console.log(JSON.stringify(val));
-    // });
+    this.Employee.valueChanges.subscribe((val) => {
+      this.logerror(this.Employee);
+      console.log(this.formError);
+    });
   }
   // this is importatnt loopoing through the all the form controls
   logkey(group: FormGroup): void {

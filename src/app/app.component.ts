@@ -6,9 +6,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  
-}
+export class AppComponent {}
 
 /*
 Copyright 2017-2018 Google Inc. All Rights Reserved.
