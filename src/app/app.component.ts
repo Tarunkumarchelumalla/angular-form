@@ -1,12 +1,14 @@
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-
+import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent { }
-
+export class AppComponent implements OnInit {
+  
+}
 
 /*
 Copyright 2017-2018 Google Inc. All Rights Reserved.
