@@ -27,7 +27,7 @@ export class HeroFormComponent implements OnInit {
     //   console.log(JSON.stringify(val));
     // });
   }
-  // this is importatnt
+  // this is importatnt loopoing through the all the form controls
   logkey(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {
       const abstractcontrol = group.get(key);
@@ -38,7 +38,7 @@ export class HeroFormComponent implements OnInit {
         console.log('Key =' + key + 'Value =' + abstractcontrol.value);
       }
     });
-  // }
+  }
   onclick(): void {
     this.logkey(this.Employee);
   }
