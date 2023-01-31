@@ -1,5 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Hero } from '../hero';
