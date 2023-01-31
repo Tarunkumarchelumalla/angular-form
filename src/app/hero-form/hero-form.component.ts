@@ -28,7 +28,7 @@ export class HeroFormComponent implements OnInit {
     },
   };
   formError = {
-    Name: ' ',
+    Name: '',
     number: ' ',
     Skillname: ' ',
     Rating: ' ',
