@@ -1,6 +1,7 @@
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -19,6 +20,7 @@ export class HeroFormComponent implements OnInit {
     },
     number: {
       required: 'number is required',
+      emailDomain: 'verifies that email',
     },
     Skillname: {
       required: 'skill name is required',
@@ -51,7 +53,7 @@ export class HeroFormComponent implements OnInit {
     // });
     this.Employee.valueChanges.subscribe((val) => {
       this.logerror(this.Employee);
-      console.log(this.formError);
+      // console.log(this.formError);
     });
   }
   // this is importatnt loopoing through the all the form controls
@@ -89,5 +91,16 @@ export class HeroFormComponent implements OnInit {
   onclick(): void {
     this.logerror(this.Employee);
     console.log(this.formError);
+  }
+}
+function customValidator(
+  control: AbstractControl
+): { [key: string]: any } | null {
+  const email: string = control.value;
+  const domain = email.substring(email.lastIndexOf('@') + 1);
+  if (domain.toLowerCase() === 'sedlife.com') {
+    return null;
+  } else {
+    return { emailDomain: true };
   }
 }

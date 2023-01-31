@@ -1,11 +1,16 @@
 <form class="form" [formGroup]="Employee">
-  Name:<input type="text" placeholder="Name" formControlName="Name" /><br />
+  Name:<input type="text" placeholder="Name" formControlName="Name" />
+  <span *ngIf="formError.Name">{{ formError.Name }}</span>
+  <br />
 
   <br />
-  <span *ngIf="formError.Name">{{ formError.Name }}</span>
-  Number:<input type="" placeholder="Number" formControlName="number" /><br />
+  emai;:<input type="" placeholder="Number" formControlName="number" />
+  <span *ngIf="formError.number">{{ formError.number }}</span
+  ><br />
   <form class="from" formGroupName="Skills">
-    skill:<input type="text" formControlName="Skillname" /><br />
+    skill:<input type="text" formControlName="Skillname" />
+    <span *ngIf="formError.Skillname">{{ formError.Skillname }}</span
+    ><br />
     Beginner:<input type="radio" value="Beginner" formControlName="Rating" />
     intermediate:<input
       type="radio"
