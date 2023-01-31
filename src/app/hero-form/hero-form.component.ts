@@ -1,3 +1,4 @@
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Validators } from '@angular/forms';
@@ -12,7 +13,7 @@ export class HeroFormComponent implements OnInit {
   public Employee: FormGroup;
   validationMsg = {
     Name: {
-      requied: 'Name required',
+      required: 'Name required',
       minlength: 'Name must be greater than 2',
       maxlength: 'Name must be less than 10 ',
     },
@@ -70,15 +71,22 @@ export class HeroFormComponent implements OnInit {
       if (abstract instanceof FormGroup) {
         this.logerror(abstract);
       } else {
+        this.formError[key] = '';
         if (abstract && !abstract.valid) {
           const msg = this.validationMsg[key];
-          console.log(msg);
-          console.log(abstract.errors);
+          // console.log(msg);
+          // console.log(abstract.errors);
+          for (const i in abstract.errors) {
+            if (i) {
+              this.formError[key] += msg[i] + ' ';
+            }
+          }
         }
       }
     });
   }
   onclick(): void {
     this.logerror(this.Employee);
+    console.log(this.formError);
   }
 }
