@@ -10,14 +10,39 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class HeroFormComponent implements OnInit {
   public Employee: FormGroup;
-  public length = 0;
+  validationMsg = {
+    Name: {
+      requied: 'Name required',
+      minlength: 'Name must be greater than 2',
+      maxlength: 'Name must be less than 10 ',
+    },
+    number: {
+      required: 'number is required',
+    },
+    Skillname: {
+      required: 'skill name is required',
+    },
+    Rating: {
+      required: 'rating cant be empty',
+    },
+  };
+  formError = {
+    Name: '',
+    number: '',
+    Skillname: '',
+    Rating: '',
+  };
   ngOnInit(): void {
     this.Employee = new FormGroup({
-      Name: new FormControl(),
-      number: new FormControl(),
+      Name: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(10),
+      ]),
+      number: new FormControl(null, [Validators.required]),
       Skills: new FormGroup({
-        Skillname: new FormControl(),
-        Rating: new FormControl('Beginner'),
+        Skillname: new FormControl(null, [Validators.required]),
+        Rating: new FormControl('Beginner', [Validators.required]),
       }),
     });
     // this.Employee.get('Name').valueChanges.subscribe((val) => {
@@ -39,7 +64,21 @@ export class HeroFormComponent implements OnInit {
       }
     });
   }
+  logerror(group: FormGroup): void {
+    Object.keys(group.controls).forEach((key: string) => {
+      const abstract = group.get(key);
+      if (abstract instanceof FormGroup) {
+        this.logerror(abstract);
+      } else {
+        if (abstract && !abstract.valid) {
+          const msg = this.validationMsg[key];
+          console.log(msg);
+          console.log(abstract.errors);
+        }
+      }
+    });
+  }
   onclick(): void {
-    this.logkey(this.Employee);
+    this.logerror(this.Employee);
   }
 }
