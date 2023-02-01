@@ -14,6 +14,9 @@
     skill2:<input type="text" formControlName="Skillname2" />
     <span *ngIf="formError.Skillname2">{{ formError.Skillname2 }}</span
     ><br />
+    <span *ngIf="formError.Skills">{{ formError.Skills }}</span
+    ><br />
+
     Beginner:<input type="radio" value="Beginner" formControlName="Rating" />
     intermediate:<input
       type="radio"
