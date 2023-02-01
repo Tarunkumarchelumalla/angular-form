@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
-
+import { customvalidators } from './heroform2';
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
@@ -45,23 +45,23 @@ export class HeroFormComponent implements OnInit {
     Rating: ' ',
   };
   ngOnInit(): void {
-    this.Employee = new FormGroup(
-      {
-        Name: new FormControl(null, [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(10),
-          customValidatorwithpara('Nope'),
-        ]),
-        number: new FormControl(null, [Validators.required, customValidator]),
-        Skills: new FormGroup({
+    this.Employee = new FormGroup({
+      Name: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(10),
+        customValidatorwithpara('Nope'),
+      ]),
+      number: new FormControl(null, [Validators.required, customValidator]),
+      Skills: new FormGroup(
+        {
           Skillname: new FormControl(null, [Validators.required]),
           Skillname2: new FormControl(null, [Validators.required]),
           Rating: new FormControl('Beginner', [Validators.required]),
-        },    [matchskill]),
-      },
-  
-    );
+        },
+        [matchskill]
+      ),
+    });
     // this.Employee.get('Name').valueChanges.subscribe((val) => {
     //   // this.length = val.length;
     // });
@@ -102,8 +102,9 @@ export class HeroFormComponent implements OnInit {
     });
   }
   onclick(): void {
-    this.logerror(this.Employee);
-    console.log(this.formError);
+    // this.logerror(this.Employee);
+    // console.log(this.formError);
+    customvalidators.onclickform(this.Employee);
   }
 }
 // custom validattors function without the parameter
@@ -136,8 +137,7 @@ function matchskill(group: AbstractControl): { [key: string]: any } | null {
   const val = group.get('Skillname').value;
   const val2 = group.get('Skillname2').value;
 
-  
-  if ((val === val2 )||(val ==='' || val2 ==='')) {
+  if (val === val2 || val === '' || val2 === '') {
     return null;
   } else {
     return { skillmismatch: true };
