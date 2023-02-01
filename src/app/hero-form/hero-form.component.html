@@ -9,11 +9,18 @@
   ><br />
   <div
     formArrayName="Skills"
-    *ngFor="let skill of Employee.get('Skills').controls"
+    *ngFor="let skill of Employee.get('Skills').controls; let i = index"
   >
-    <form class="from" formGroupName="0">
+    <hr *ngIf="i > 0" />
+    <button *ngIf="i > 0" (click)="delete(i)">delete</button>
+    <form class="from" [formGroupName]="i">
       skill:<input type="text" formControlName="Skillname" />
-      <span *ngIf="formError.Skillname">{{ formError.Skillname }}</span
+      <span
+        *ngIf="
+          skill.get('Skillname').errors?.required &&
+          skill.get('Skillname').touched
+        "
+        >Nme required</span
       ><br />
       skill2:<input type="text" formControlName="Skillname2" />
       <span *ngIf="formError.Skillname2">{{ formError.Skillname2 }}</span

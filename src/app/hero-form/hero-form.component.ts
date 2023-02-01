@@ -73,45 +73,12 @@ export class HeroFormComponent implements OnInit {
       [matchskill]
     );
   }
-
-  AddSkill():void{
-    (<FormArray>this.Employee.get('Skills')).push(this.addSkillFormgroup())
+  delete(val): void {
+    (<FormArray>this.Employee.get('Skills')).removeAt(val);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  AddSkill(): void {
+    (<FormArray>this.Employee.get('Skills')).push(this.addSkillFormgroup());
+  }
 
   // this is importatnt loopoing through the all the form controls
   logkey(group: FormGroup): void {
@@ -155,47 +122,12 @@ export class HeroFormComponent implements OnInit {
     });
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   onclick(): void {
     this.logerror(this.Employee);
     console.log(this.formError);
     // customvalidators.onclickform(this.Employee);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ************************validation*************
 
