@@ -29,6 +29,9 @@ export class HeroFormComponent implements OnInit {
     Skillname2: {
       required: 'skill name2 is required',
     },
+    Skills: {
+      skillmismatch: 'skill is not matching',
+    },
     Rating: {
       required: 'rating cant be empty',
     },
@@ -38,23 +41,27 @@ export class HeroFormComponent implements OnInit {
     number: ' ',
     Skillname: ' ',
     Skillname2: '',
+    Skills: '',
     Rating: ' ',
   };
   ngOnInit(): void {
-    this.Employee = new FormGroup({
-      Name: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(10),
-        customValidatorwithpara('Nope'),
-      ]),
-      number: new FormControl(null, [Validators.required, customValidator]),
-      Skills: new FormGroup({
-        Skillname: new FormControl(null, [Validators.required]),
-        Skillname2: new FormControl(null, [Validators.required]),
-        Rating: new FormControl('Beginner', [Validators.required]),
-      }),
-    });
+    this.Employee = new FormGroup(
+      {
+        Name: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(10),
+          customValidatorwithpara('Nope'),
+        ]),
+        number: new FormControl(null, [Validators.required, customValidator]),
+        Skills: new FormGroup({
+          Skillname: new FormControl(null, [Validators.required]),
+          Skillname2: new FormControl(null, [Validators.required]),
+          Rating: new FormControl('Beginner', [Validators.required]),
+        },    [matchskill]),
+      },
+  
+    );
     // this.Employee.get('Name').valueChanges.subscribe((val) => {
     //   // this.length = val.length;
     // });
@@ -78,24 +85,19 @@ export class HeroFormComponent implements OnInit {
   logerror(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {
       const abstract = group.get(key);
-      if (abstract instanceof FormGroup) {
-        this.logerror(abstract);
-      } else {
-        this.formError[key] = '';
-        if (
-          abstract &&
-          !abstract.valid &&
-          (abstract.touched || abstract.dirty)
-        ) {
-          const msg = this.validationMsg[key];
-          // console.log(msg);
-          // console.log(abstract.errors);
-          for (const i in abstract.errors) {
-            if (i) {
-              this.formError[key] += msg[i] + ' ';
-            }
+      this.formError[key] = '';
+      if (abstract && !abstract.valid && (abstract.touched || abstract.dirty)) {
+        const msg = this.validationMsg[key];
+        // console.log(msg);
+        // console.log(abstract.errors);
+        for (const i in abstract.errors) {
+          if (i) {
+            this.formError[key] += msg[i] + ' ';
           }
         }
+      }
+      if (abstract instanceof FormGroup) {
+        this.logerror(abstract);
       }
     });
   }
@@ -130,3 +132,14 @@ function customValidatorwithpara(customval: string) {
   };
 }
 // custom validators for two values
+function matchskill(group: AbstractControl): { [key: string]: any } | null {
+  const val = group.get('Skillname').value;
+  const val2 = group.get('Skillname2').value;
+
+  
+  if ((val === val2 )||(val ==='' || val2 ==='')) {
+    return null;
+  } else {
+    return { skillmismatch: true };
+  }
+}
