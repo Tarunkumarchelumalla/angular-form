@@ -17,13 +17,17 @@ export class HeroFormComponent implements OnInit {
       required: 'Name required',
       minlength: 'Name must be greater than 2',
       maxlength: 'Name must be less than 10 ',
+      valwithpara: 'custom parameter validation error',
     },
     number: {
       required: 'number is required',
-      emailDomain: 'verifies that email',
+      emailDomain: 'verifies that email sedlife.com',
     },
     Skillname: {
       required: 'skill name is required',
+    },
+    Skillname2: {
+      required: 'skill name2 is required',
     },
     Rating: {
       required: 'rating cant be empty',
@@ -33,6 +37,7 @@ export class HeroFormComponent implements OnInit {
     Name: '',
     number: ' ',
     Skillname: ' ',
+    Skillname2: '',
     Rating: ' ',
   };
   ngOnInit(): void {
@@ -41,10 +46,12 @@ export class HeroFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(10),
+        customValidatorwithpara('Nope'),
       ]),
-      number: new FormControl(null, [Validators.required]),
+      number: new FormControl(null, [Validators.required, customValidator]),
       Skills: new FormGroup({
         Skillname: new FormControl(null, [Validators.required]),
+        Skillname2: new FormControl(null, [Validators.required]),
         Rating: new FormControl('Beginner', [Validators.required]),
       }),
     });
@@ -75,7 +82,11 @@ export class HeroFormComponent implements OnInit {
         this.logerror(abstract);
       } else {
         this.formError[key] = '';
-        if (abstract && !abstract.valid) {
+        if (
+          abstract &&
+          !abstract.valid &&
+          (abstract.touched || abstract.dirty)
+        ) {
           const msg = this.validationMsg[key];
           // console.log(msg);
           // console.log(abstract.errors);
@@ -93,14 +104,29 @@ export class HeroFormComponent implements OnInit {
     console.log(this.formError);
   }
 }
+// custom validattors function without the parameter
 function customValidator(
   control: AbstractControl
 ): { [key: string]: any } | null {
   const email: string = control.value;
-  const domain = email.substring(email.lastIndexOf('@') + 1);
-  if (domain.toLowerCase() === 'sedlife.com') {
+
+  if (email === '' || email === 'sagelife.com') {
     return null;
   } else {
     return { emailDomain: true };
   }
 }
+
+// custom validator with parameter returns the validators funtion as a return type
+function customValidatorwithpara(customval: string) {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const val: string = control.value;
+
+    if (val === '' || val === customval) {
+      return null;
+    } else {
+      return { valwithpara: true };
+    }
+  };
+}
+// custom validators for two values
