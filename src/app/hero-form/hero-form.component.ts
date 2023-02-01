@@ -1,7 +1,7 @@
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormArray } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormControl, FormGroup } from '@angular/forms';
 import { customvalidators } from './heroform2';
@@ -53,23 +53,66 @@ export class HeroFormComponent implements OnInit {
         customValidatorwithpara('Nope'),
       ]),
       number: new FormControl(null, [Validators.required, customValidator]),
-      Skills: new FormGroup(
-        {
-          Skillname: new FormControl(null, [Validators.required]),
-          Skillname2: new FormControl(null, [Validators.required]),
-          Rating: new FormControl('Beginner', [Validators.required]),
-        },
-        [matchskill]
-      ),
+      Skills: new FormArray([this.addSkillFormgroup()]),
     });
     // this.Employee.get('Name').valueChanges.subscribe((val) => {
     //   // this.length = val.length;
     // });
     this.Employee.valueChanges.subscribe((val) => {
       this.logerror(this.Employee);
-      // console.log(this.formError);
+      console.log(this.formError);
     });
   }
+  addSkillFormgroup(): FormGroup {
+    return new FormGroup(
+      {
+        Skillname: new FormControl(null, [Validators.required]),
+        Skillname2: new FormControl(null, [Validators.required]),
+        Rating: new FormControl('Beginner', [Validators.required]),
+      },
+      [matchskill]
+    );
+  }
+
+  AddSkill():void{
+    (<FormArray>this.Employee.get('Skills')).push(this.addSkillFormgroup())
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // this is importatnt loopoing through the all the form controls
   logkey(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {
@@ -82,6 +125,9 @@ export class HeroFormComponent implements OnInit {
       }
     });
   }
+
+  // **************************errror **********************88
+
   logerror(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {
       const abstract = group.get(key);
@@ -99,14 +145,60 @@ export class HeroFormComponent implements OnInit {
       if (abstract instanceof FormGroup) {
         this.logerror(abstract);
       }
+      if (abstract instanceof FormArray) {
+        for (const jam of abstract.controls) {
+          if (jam instanceof FormGroup) {
+            this.logerror(jam);
+          }
+        }
+      }
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   onclick(): void {
-    // this.logerror(this.Employee);
-    // console.log(this.formError);
-    customvalidators.onclickform(this.Employee);
+    this.logerror(this.Employee);
+    console.log(this.formError);
+    // customvalidators.onclickform(this.Employee);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ************************validation*************
+
 // custom validattors function without the parameter
 function customValidator(
   control: AbstractControl
