@@ -4,12 +4,15 @@
   <br />
 
   <br />
-  emai;:<input type="" placeholder="Number" formControlName="number" />
+  email:<input type="" placeholder="Number" formControlName="number" />
   <span *ngIf="formError.number">{{ formError.number }}</span
   ><br />
   <form class="from" formGroupName="Skills">
     skill:<input type="text" formControlName="Skillname" />
     <span *ngIf="formError.Skillname">{{ formError.Skillname }}</span
+    ><br />
+    skill2:<input type="text" formControlName="Skillname2" />
+    <span *ngIf="formError.Skillname2">{{ formError.Skillname2 }}</span
     ><br />
     Beginner:<input type="radio" value="Beginner" formControlName="Rating" />
     intermediate:<input
